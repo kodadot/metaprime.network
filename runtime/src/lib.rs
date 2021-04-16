@@ -27,13 +27,11 @@ use sp_runtime::traits::{AccountIdLookup, BlakeTwo256, Block as BlockT};
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
 use sp_runtime::{
-    create_runtime_str, generic,
+    generic,
     transaction_validity::{TransactionSource, TransactionValidity},
     ApplyExtrinsicResult, Perbill,
 };
 use sp_std::prelude::*;
-#[cfg(feature = "std")]
-use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 use xcm::v0::{Junction, MultiLocation, NetworkId};
 use xcm_builder::{
@@ -48,31 +46,16 @@ use xcm_executor::{
 
 mod constants;
 mod primitives;
+mod version;
 
 use constants::SLOT_DURATION;
 pub use primitives::{
     opaque, AccountId, AccountIndex, Balance, BlockNumber, DigestItem, Hash, Header, Index,
     Signature,
 };
-
-pub const VERSION: RuntimeVersion = RuntimeVersion {
-    spec_name: create_runtime_str!("cumulus-test-parachain"),
-    impl_name: create_runtime_str!("cumulus-test-parachain"),
-    authoring_version: 1,
-    spec_version: 1,
-    impl_version: 1,
-    apis: RUNTIME_API_VERSIONS,
-    transaction_version: 1,
-};
-
-/// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
-pub fn native_version() -> NativeVersion {
-    NativeVersion {
-        runtime_version: VERSION,
-        can_author_with: Default::default(),
-    }
-}
+pub use version::native_version;
+pub use version::VERSION;
 
 /// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.
 /// This is used to limit the maximal weight of a single extrinsic.
