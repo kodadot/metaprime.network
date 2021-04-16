@@ -26,6 +26,7 @@ mod constants;
 mod pallets_core;
 mod pallets_cumulus;
 mod pallets_economy;
+mod pallets_governance;
 mod primitives;
 mod version;
 
@@ -36,11 +37,6 @@ pub use primitives::{
 #[cfg(feature = "std")]
 pub use version::native_version;
 pub use version::VERSION;
-
-impl pallet_sudo::Config for Runtime {
-    type Event = Event;
-    type Call = Call;
-}
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
