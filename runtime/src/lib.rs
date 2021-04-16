@@ -6,7 +6,7 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use frame_support::{construct_runtime, parameter_types, traits::Randomness, weights::IdentityFee};
+use frame_support::{construct_runtime, traits::Randomness};
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_timestamp::Call as TimestampCall;
 use sp_api::impl_runtime_apis;
@@ -25,6 +25,7 @@ use sp_version::RuntimeVersion;
 mod constants;
 mod pallets_core;
 mod pallets_cumulus;
+mod pallets_economy;
 mod primitives;
 mod version;
 
@@ -35,35 +36,6 @@ pub use primitives::{
 #[cfg(feature = "std")]
 pub use version::native_version;
 pub use version::VERSION;
-
-parameter_types! {
-    /// Same as Polkadot Relay Chain.
-    pub const ExistentialDeposit: Balance = 500;
-    pub const MaxLocks: u32 = 50;
-}
-
-impl pallet_balances::Config for Runtime {
-    type MaxLocks = MaxLocks;
-    /// The type for recording an account's balance.
-    type Balance = Balance;
-    /// The ubiquitous event type.
-    type Event = Event;
-    type DustRemoval = ();
-    type ExistentialDeposit = ExistentialDeposit;
-    type AccountStore = System;
-    type WeightInfo = pallet_balances::weights::SubstrateWeight<Runtime>;
-}
-
-parameter_types! {
-    pub const TransactionByteFee: Balance = 1 ;
-}
-
-impl pallet_transaction_payment::Config for Runtime {
-    type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, ()>;
-    type TransactionByteFee = TransactionByteFee;
-    type WeightToFee = IdentityFee<Balance>;
-    type FeeMultiplierUpdate = ();
-}
 
 impl pallet_sudo::Config for Runtime {
     type Event = Event;
