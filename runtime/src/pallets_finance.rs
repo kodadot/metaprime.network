@@ -31,7 +31,7 @@ impl pallet_treasury::Config for Runtime {
     type ApproveOrigin = EnsureRoot<AccountId>;
     type RejectOrigin = EnsureRoot<AccountId>;
     type Event = Event;
-    type OnSlash = ();
+    type OnSlash = (); // BURN 🔥
     type ProposalBond = ProposalBond;
     type ProposalBondMinimum = ProposalBondMinimum;
     type SpendPeriod = SpendPeriod;

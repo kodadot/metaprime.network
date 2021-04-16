@@ -1,7 +1,7 @@
 use crate::{
     constants::{deposit, CENTS, UNITS},
     primitives::{AccountId, Balance},
-    Balances, Call, Event, Runtime,
+    Balances, Call, Event, Runtime, Treasury,
 };
 use frame_support::parameter_types;
 use frame_system::EnsureRoot;
@@ -59,7 +59,7 @@ impl pallet_identity::Config for Runtime {
     type MaxSubAccounts = MaxSubAccounts;
     type MaxAdditionalFields = MaxAdditionalFields;
     type MaxRegistrars = MaxRegistrars;
-    type Slashed = ();
+    type Slashed = Treasury;
     type ForceOrigin = EnsureRoot<AccountId>;
     type RegistrarOrigin = EnsureRoot<AccountId>;
     type WeightInfo = pallet_identity::weights::SubstrateWeight<Runtime>;
