@@ -22,11 +22,12 @@ use sp_runtime::{
 use sp_std::prelude::*;
 use sp_version::RuntimeVersion;
 
-mod constants;
+pub mod constants;
 mod pallets_core;
 mod pallets_cumulus;
 mod pallets_economy;
 mod pallets_governance;
+mod pallets_utilities;
 mod primitives;
 mod version;
 
@@ -53,6 +54,8 @@ construct_runtime!(
         TransactionPayment: pallet_transaction_payment::{Pallet, Storage},
 
         Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
+
+        Multisig: pallet_multisig::{Pallet, Call, Storage, Event<T>},
 
         ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
@@ -213,6 +216,7 @@ impl_runtime_apis! {
 
             add_benchmark!(params, batches, frame_system, SystemBench::<Runtime>);
             add_benchmark!(params, batches, pallet_balances, Balances);
+            add_benchmark!(params, batches, pallet_multisig, Multisig);
             add_benchmark!(params, batches, pallet_timestamp, Timestamp);
 
             if batches.is_empty() { return Err("Benchmark not found for this pallet.".into()) }

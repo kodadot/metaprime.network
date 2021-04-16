@@ -1,9 +1,9 @@
-use crate::{primitives::Balance, Balances, Event, Runtime, System};
+use crate::{constants::UNITS, primitives::Balance, Balances, Event, Runtime, System};
 use frame_support::{parameter_types, weights::IdentityFee};
 
 parameter_types! {
     /// Same as Polkadot Relay Chain.
-    pub const ExistentialDeposit: Balance = 500;
+    pub const ExistentialDeposit: Balance = 1 * UNITS;
     pub const MaxLocks: u32 = 50;
 }
 
