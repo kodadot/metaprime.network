@@ -48,12 +48,15 @@ construct_runtime!(
         System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
         RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Call, Storage},
         Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
+
         Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
-        ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
         TransactionPayment: pallet_transaction_payment::{Pallet, Storage},
+
+        Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
+
+        ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
         XcmHandler: cumulus_pallet_xcm_handler::{Pallet, Event<T>, Origin},
-        Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
     }
 );
 
