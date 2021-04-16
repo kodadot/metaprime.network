@@ -55,9 +55,6 @@ pub use pallet_timestamp::Call as TimestampCall;
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Permill, Perquintill};
 
-/// Import the template pallet.
-pub use template;
-
 /// An index to a block.
 pub type BlockNumber = u32;
 
@@ -342,11 +339,6 @@ impl cumulus_pallet_xcm_handler::Config for Runtime {
     type AccountIdConverter = LocationConverter;
 }
 
-/// Configure the pallet template in pallets/template.
-impl template::Config for Runtime {
-    type Event = Event;
-}
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
     pub enum Runtime where
@@ -363,7 +355,6 @@ construct_runtime!(
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
         XcmHandler: cumulus_pallet_xcm_handler::{Pallet, Event<T>, Origin},
         Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
-        TemplatePallet: template::{Pallet, Call, Storage, Event<T>},
     }
 );
 

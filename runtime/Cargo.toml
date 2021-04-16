@@ -217,11 +217,6 @@ git = 'https://github.com/paritytech/polkadot'
 branch = 'rococo-v1'
 default-features = false
 
-[dependencies.template]
-default-features = false
-package = 'pallet-template'
-path = '../pallets/template'
-
 [features]
 default = ['std']
 runtime-benchmarks = [
@@ -233,7 +228,6 @@ runtime-benchmarks = [
 	'frame-system/runtime-benchmarks',
 	'pallet-balances/runtime-benchmarks',
 	'pallet-timestamp/runtime-benchmarks',
-	'template/runtime-benchmarks',
 ]
 std = [
 	'codec/std',
@@ -265,5 +259,4 @@ std = [
 	'xcm-builder/std',
 	'xcm-executor/std',
 	'cumulus-pallet-xcm-handler/std',
-	'template/std',
 ]
