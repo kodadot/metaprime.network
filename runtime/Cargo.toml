@@ -73,6 +73,12 @@ git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
 version = '3.0.0'
 
+[dependencies.pallet-bounties]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
 [dependencies.pallet-identity]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
@@ -97,13 +103,13 @@ git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
 version = '3.0.0'
 
-[dependencies.pallet-sudo]
+[dependencies.pallet-recovery]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
 version = '3.0.0'
 
-[dependencies.pallet-recovery]
+[dependencies.pallet-sudo]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
@@ -122,6 +128,12 @@ branch = 'rococo-v1'
 version = '3.0.0'
 
 [dependencies.pallet-transaction-payment-rpc-runtime-api]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-treasury]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
@@ -251,10 +263,12 @@ runtime-benchmarks = [
 	'hex-literal',
 	'frame-system/runtime-benchmarks',
 	'pallet-balances/runtime-benchmarks',
+	'pallet-bounties/runtime-benchmarks',
 	'pallet-identity/runtime-benchmarks',
 	'pallet-indices/runtime-benchmarks',
 	'pallet-multisig/runtime-benchmarks',
 	'pallet-timestamp/runtime-benchmarks',
+	'pallet-treasury/runtime-benchmarks',
 ]
 std = [
 	'codec/std',
@@ -275,14 +289,16 @@ std = [
 	'frame-system/std',
 	'frame-system-rpc-runtime-api/std',
 	'pallet-balances/std',
+	'pallet-bounties/std',
 	'pallet-identity/std',
 	'pallet-indices/std',
 	'pallet-multisig/std',
 	'pallet-randomness-collective-flip/std',
 	'pallet-recovery/std',
-	'pallet-timestamp/std',
 	'pallet-sudo/std',
+	'pallet-timestamp/std',
 	'pallet-transaction-payment/std',
+	'pallet-treasury/std',
 	'parachain-info/std',
 	'cumulus-pallet-parachain-system/std',
 	'cumulus-primitives-core/std',

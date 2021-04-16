@@ -26,6 +26,7 @@ pub mod constants;
 mod pallets_core;
 mod pallets_cumulus;
 mod pallets_economy;
+mod pallets_finance;
 mod pallets_governance;
 mod pallets_utilities;
 mod primitives;
@@ -53,6 +54,9 @@ construct_runtime!(
 
         Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
         TransactionPayment: pallet_transaction_payment::{Pallet, Storage},
+
+        Bounties: pallet_bounties::{Pallet, Call, Storage, Event<T>},
+        Treasury: pallet_treasury::{Pallet, Call, Storage, Config, Event<T>},
 
         Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
 
@@ -219,10 +223,12 @@ impl_runtime_apis! {
 
             add_benchmark!(params, batches, frame_system, SystemBench::<Runtime>);
             add_benchmark!(params, batches, pallet_balances, Balances);
+            add_benchmark!(params, batches, pallet_bounties, Bounties);
             add_benchmark!(params, batches, pallet_identity, Identity);
             add_benchmark!(params, batches, pallet_indices, Index);
             add_benchmark!(params, batches, pallet_multisig, Multisig);
             add_benchmark!(params, batches, pallet_timestamp, Timestamp);
+            add_benchmark!(params, batches, pallet_treasury, Treasury);
 
             if batches.is_empty() { return Err("Benchmark not found for this pallet.".into()) }
             Ok(batches)

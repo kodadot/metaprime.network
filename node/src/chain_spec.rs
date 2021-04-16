@@ -132,6 +132,7 @@ fn testnet_genesis(
         },
         pallet_indices: Default::default(),
         pallet_sudo: parachain_runtime::SudoConfig { key: root_key },
+        pallet_treasury: Default::default(),
         parachain_info: parachain_runtime::ParachainInfoConfig { parachain_id: id },
     }
 }

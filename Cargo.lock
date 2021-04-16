@@ -4270,6 +4270,7 @@ name = "pallet-bounties"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#401c24e8a62cdf058882b0e92815faef966d9fa1"
 dependencies = [
+ "frame-benchmarking",
  "frame-support",
  "frame-system",
  "pallet-treasury",
@@ -4701,6 +4702,7 @@ name = "pallet-treasury"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#401c24e8a62cdf058882b0e92815faef966d9fa1"
 dependencies = [
+ "frame-benchmarking",
  "frame-support",
  "frame-system",
  "impl-trait-for-tuples",
@@ -4819,6 +4821,7 @@ dependencies = [
  "frame-system-rpc-runtime-api",
  "hex-literal 0.3.1",
  "pallet-balances",
+ "pallet-bounties",
  "pallet-identity",
  "pallet-indices",
  "pallet-multisig",
@@ -4828,6 +4831,7 @@ dependencies = [
  "pallet-timestamp",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
+ "pallet-treasury",
  "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",

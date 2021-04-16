@@ -1,4 +1,4 @@
-use crate::primitives::Balance;
+use crate::primitives::{Balance, BlockNumber};
 
 /// This determines the average expected block time that we are targetting.
 /// Blocks will be produced at a minimum duration defined by `SLOT_DURATION`.
@@ -11,9 +11,9 @@ pub const MILLISECS_PER_BLOCK: u64 = 6000;
 pub const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
 
 // Time is measured by number of blocks.
-//pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
-//pub const HOURS: BlockNumber = MINUTES * 60;
-//pub const DAYS: BlockNumber = HOURS * 24;
+pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
+pub const HOURS: BlockNumber = MINUTES * 60;
+pub const DAYS: BlockNumber = HOURS * 24;
 
 pub const MILLICENTS: Balance = 1_000_000_000;
 pub const CENTS: Balance = 1_000 * MILLICENTS;
