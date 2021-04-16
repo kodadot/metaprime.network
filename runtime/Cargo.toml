@@ -97,6 +97,12 @@ git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
 version = '3.0.0'
 
+[dependencies.pallet-recovery]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
 [dependencies.pallet-timestamp]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
@@ -265,6 +271,7 @@ std = [
 	'pallet-indices/std',
 	'pallet-multisig/std',
 	'pallet-randomness-collective-flip/std',
+	'pallet-recovery/std',
 	'pallet-timestamp/std',
 	'pallet-sudo/std',
 	'pallet-transaction-payment/std',

@@ -4822,6 +4822,7 @@ dependencies = [
  "pallet-indices",
  "pallet-multisig",
  "pallet-randomness-collective-flip",
+ "pallet-recovery",
  "pallet-sudo",
  "pallet-timestamp",
  "pallet-transaction-payment",

@@ -57,6 +57,7 @@ construct_runtime!(
         Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
 
         Multisig: pallet_multisig::{Pallet, Call, Storage, Event<T>},
+        Recovery: pallet_recovery::{Pallet, Call, Storage, Event<T>},
 
         ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
