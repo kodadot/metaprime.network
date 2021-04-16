@@ -63,6 +63,7 @@ construct_runtime!(
         Identity: pallet_identity::{Pallet, Call, Storage, Event<T>},
         Multisig: pallet_multisig::{Pallet, Call, Storage, Event<T>},
         Recovery: pallet_recovery::{Pallet, Call, Storage, Event<T>},
+        Utility: pallet_utility::{Pallet, Call, Event},
 
         ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
@@ -229,6 +230,7 @@ impl_runtime_apis! {
             add_benchmark!(params, batches, pallet_multisig, Multisig);
             add_benchmark!(params, batches, pallet_timestamp, Timestamp);
             add_benchmark!(params, batches, pallet_treasury, Treasury);
+            add_benchmark!(params, batches, pallet_utility, Utility);
 
             if batches.is_empty() { return Err("Benchmark not found for this pallet.".into()) }
             Ok(batches)

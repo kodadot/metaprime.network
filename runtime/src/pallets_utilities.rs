@@ -64,3 +64,9 @@ impl pallet_identity::Config for Runtime {
     type RegistrarOrigin = EnsureRoot<AccountId>;
     type WeightInfo = pallet_identity::weights::SubstrateWeight<Runtime>;
 }
+
+impl pallet_utility::Config for Runtime {
+    type Event = Event;
+    type Call = Call;
+    type WeightInfo = pallet_utility::weights::SubstrateWeight<Runtime>;
+}

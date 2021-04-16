@@ -4718,6 +4718,7 @@ name = "pallet-utility"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#401c24e8a62cdf058882b0e92815faef966d9fa1"
 dependencies = [
+ "frame-benchmarking",
  "frame-support",
  "frame-system",
  "parity-scale-codec",
@@ -4832,6 +4833,7 @@ dependencies = [
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
  "pallet-treasury",
+ "pallet-utility",
  "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
