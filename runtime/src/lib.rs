@@ -6,27 +6,35 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
-use sp_api::impl_runtime_apis;
-use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
-use sp_runtime::traits::{AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, Verify};
-use sp_runtime::{
-    create_runtime_str, generic, impl_opaque_keys,
-    transaction_validity::{TransactionSource, TransactionValidity},
-    ApplyExtrinsicResult, MultiSignature,
+use frame_support::{
+    construct_runtime, parameter_types,
+    traits::Randomness,
+    weights::{
+        constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
+        DispatchClass, IdentityFee, Weight,
+    },
 };
-
-use sp_std::prelude::*;
-#[cfg(feature = "std")]
-use sp_version::NativeVersion;
-use sp_version::RuntimeVersion;
-
 use frame_system::{
     limits::{BlockLength, BlockWeights},
     EnsureRoot,
 };
-
-// Polkadot imports
+pub use pallet_balances::Call as BalancesCall;
+pub use pallet_timestamp::Call as TimestampCall;
 use polkadot_parachain::primitives::Sibling;
+use sp_api::impl_runtime_apis;
+use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
+use sp_runtime::traits::{AccountIdLookup, BlakeTwo256, Block as BlockT, IdentifyAccount, Verify};
+#[cfg(any(feature = "std", test))]
+pub use sp_runtime::BuildStorage;
+use sp_runtime::{
+    create_runtime_str, generic, impl_opaque_keys,
+    transaction_validity::{TransactionSource, TransactionValidity},
+    ApplyExtrinsicResult, MultiSignature, Perbill,
+};
+use sp_std::prelude::*;
+#[cfg(feature = "std")]
+use sp_version::NativeVersion;
+use sp_version::RuntimeVersion;
 use xcm::v0::{Junction, MultiLocation, NetworkId};
 use xcm_builder::{
     AccountId32Aliases, CurrencyAdapter, LocationInverter, ParentIsDefault, RelayChainAsNative,
@@ -37,26 +45,6 @@ use xcm_executor::{
     traits::{IsConcrete, NativeAsset},
     Config, XcmExecutor,
 };
-
-// A few exports that help ease life for downstream crates.
-use codec::{Decode, Encode};
-pub use frame_support::{
-    construct_runtime, parameter_types,
-    traits::{KeyOwnerProofSystem, Randomness},
-    weights::{
-        constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
-        DispatchClass, IdentityFee, Weight,
-    },
-    RuntimeDebug, StorageValue,
-};
-pub use pallet_balances::Call as BalancesCall;
-pub use pallet_timestamp::Call as TimestampCall;
-#[cfg(any(feature = "std", test))]
-pub use sp_runtime::BuildStorage;
-pub use sp_runtime::{Perbill, Permill, Perquintill};
-
-/// Import the template pallet.
-pub use template;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -127,15 +115,6 @@ pub const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
 pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
-
-// 1 in 4 blocks (on average, not counting collisions) will be primary babe blocks.
-pub const PRIMARY_PROBABILITY: (u64, u64) = (1, 4);
-
-#[derive(codec::Encode, codec::Decode)]
-pub enum XCMPMessage<XAccountId, XBalance> {
-    /// Transfer tokens to the given account from the Parachain account.
-    TransferToken(XAccountId, XBalance),
-}
 
 /// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
@@ -342,11 +321,6 @@ impl cumulus_pallet_xcm_handler::Config for Runtime {
     type AccountIdConverter = LocationConverter;
 }
 
-/// Configure the pallet template in pallets/template.
-impl template::Config for Runtime {
-    type Event = Event;
-}
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
     pub enum Runtime where
@@ -363,7 +337,6 @@ construct_runtime!(
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
         XcmHandler: cumulus_pallet_xcm_handler::{Pallet, Event<T>, Origin},
         Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
-        TemplatePallet: template::{Pallet, Call, Storage, Event<T>},
     }
 );
 
