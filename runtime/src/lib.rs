@@ -65,9 +65,12 @@ construct_runtime!(
         Recovery: pallet_recovery::{Pallet, Call, Storage, Event<T>},
         Utility: pallet_utility::{Pallet, Call, Event},
 
-        ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
+        ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event<T>},
         ParachainInfo: parachain_info::{Pallet, Storage, Config},
-        XcmHandler: cumulus_pallet_xcm_handler::{Pallet, Event<T>, Origin},
+        XcmpQueue: cumulus_pallet_xcmp_queue::{Pallet, Call, Storage, Event<T>},
+        PolkadotXcm: pallet_xcm::{Pallet, Call, Event<T>, Origin},
+        CumulusXcm: cumulus_pallet_xcm::{Pallet, Origin},
+        Ping: cumulus_ping::{Pallet, Call, Storage, Event<T>},
     }
 );
 
@@ -181,20 +184,22 @@ impl_runtime_apis! {
         }
     }
 
-    impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentApi<Block, Balance> for Runtime {
-        fn query_info(
-            uxt: <Block as BlockT>::Extrinsic,
-            len: u32,
-        ) -> pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo<Balance> {
-            TransactionPayment::query_info(uxt, len)
-        }
-        fn query_fee_details(
-            uxt: <Block as BlockT>::Extrinsic,
-            len: u32,
-        ) -> pallet_transaction_payment::FeeDetails<Balance> {
-            TransactionPayment::query_fee_details(uxt, len)
-        }
-    }
+    // posing issues on latest cumulus and substrate branches
+    // impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentApi<Block, Balance> for Runtime {
+    //     fn query_info(
+    //         uxt: <Block as BlockT>::Extrinsic,
+    //         len: u32,
+    //     ) -> pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo<Balance> {
+    //         TransactionPayment::query_info(uxt, len)
+    //     }
+    //
+    //     fn query_fee_details(
+    //         uxt: <Block as BlockT>::Extrinsic,
+    //         len: u32,
+    //     ) -> pallet_transaction_payment::FeeDetails<Balance> {
+    //         TransactionPayment::query_fee_details(uxt, len)
+    //     }
+    // }
 
     #[cfg(feature = "runtime-benchmarks")]
     impl frame_benchmarking::Benchmark<Block> for Runtime {
