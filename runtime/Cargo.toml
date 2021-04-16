@@ -73,6 +73,12 @@ git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
 version = '3.0.0'
 
+[dependencies.pallet-indices]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
 [dependencies.pallet-multisig]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
@@ -233,6 +239,7 @@ runtime-benchmarks = [
 	'hex-literal',
 	'frame-system/runtime-benchmarks',
 	'pallet-balances/runtime-benchmarks',
+	'pallet-indices/runtime-benchmarks',
 	'pallet-multisig/runtime-benchmarks',
 	'pallet-timestamp/runtime-benchmarks',
 ]
@@ -255,6 +262,7 @@ std = [
 	'frame-system/std',
 	'frame-system-rpc-runtime-api/std',
 	'pallet-balances/std',
+	'pallet-indices/std',
 	'pallet-multisig/std',
 	'pallet-randomness-collective-flip/std',
 	'pallet-timestamp/std',

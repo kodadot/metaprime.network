@@ -1,8 +1,8 @@
 use crate::{
-    constants::SLOT_DURATION,
-    primitives::{AccountId, Balance, BlockNumber, Hash, Index},
+    constants::{SLOT_DURATION, UNITS},
+    primitives::{AccountId, AccountIndex, Balance, BlockNumber, Hash, Index},
     version::VERSION,
-    Call, Event, Origin, PalletInfo, Runtime,
+    Balances, Call, Event, Indices, Origin, PalletInfo, Runtime,
 };
 use frame_support::{
     parameter_types,
@@ -12,11 +12,7 @@ use frame_support::{
     },
 };
 use frame_system::limits::{BlockLength, BlockWeights};
-use sp_runtime::{
-    generic,
-    traits::{AccountIdLookup, BlakeTwo256},
-    Perbill,
-};
+use sp_runtime::{generic, traits::BlakeTwo256, Perbill};
 use sp_version::RuntimeVersion;
 
 /// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.
@@ -61,7 +57,7 @@ impl frame_system::Config for Runtime {
     type BlockLength = RuntimeBlockLength;
     type AccountId = AccountId;
     type Call = Call;
-    type Lookup = AccountIdLookup<AccountId, ()>;
+    type Lookup = Indices;
     type Index = Index;
     type BlockNumber = BlockNumber;
     type Hash = Hash;
@@ -89,4 +85,16 @@ impl pallet_timestamp::Config for Runtime {
     type OnTimestampSet = ();
     type MinimumPeriod = MinimumPeriod;
     type WeightInfo = ();
+}
+
+parameter_types! {
+    pub const IndexDeposit: Balance = 1 * UNITS;
+}
+
+impl pallet_indices::Config for Runtime {
+    type AccountIndex = AccountIndex;
+    type Currency = Balances;
+    type Deposit = IndexDeposit;
+    type Event = Event;
+    type WeightInfo = pallet_indices::weights::SubstrateWeight<Runtime>;
 }
