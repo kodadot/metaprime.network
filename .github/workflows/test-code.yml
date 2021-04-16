@@ -1,15 +1,9 @@
 name: Test Code
 
-on:
-  pull_request:
-    branches:
-    - master
-  push:
-    branches:
-    - master
+on: [push, pull_request]
 
 jobs:
-  test-code:
+  tests:
     runs-on: ubuntu-18.04
 
     steps:
@@ -26,15 +20,8 @@ jobs:
           target
         key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
 
-    - name: Install toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly-2021-01-26
-        components: rustfmt, clippy
-        target: wasm32-unknown-unknown
-        override: true
-        default: true
+    - name: Setup toolchain
+      run: ./scripts/init.sh
 
     # Enable this for clippy linting.
     # - name: Check and Lint Code
@@ -45,3 +32,18 @@ jobs:
 
     - name: Test Code
       run: cargo test --all
+
+  fmt:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup toolchain
+      run: ./scripts/init.sh
+
+    - name: Install rustfmt
+      run: rustup component add rustfmt
+
+    - name: Run cargo fmt
+      run: cargo fmt --all -- --check
