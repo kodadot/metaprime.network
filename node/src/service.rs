@@ -6,7 +6,7 @@ use cumulus_client_service::{
     prepare_node_config, start_collator, start_full_node, StartCollatorParams, StartFullNodeParams,
 };
 use cumulus_primitives_core::ParaId;
-use parachain_runtime::{opaque::Block, RuntimeApi};
+use kodadot_runtime::{opaque::Block, RuntimeApi};
 use polkadot_primitives::v0::CollatorPair;
 use sc_executor::native_executor_instance;
 pub use sc_executor::NativeExecutor;
@@ -19,8 +19,8 @@ use std::sync::Arc;
 // Native executor instance.
 native_executor_instance!(
     pub Executor,
-    parachain_runtime::api::dispatch,
-    parachain_runtime::native_version,
+    kodadot_runtime::api::dispatch,
+    kodadot_runtime::native_version,
 );
 
 /// Starts a `ServiceBuilder` for a full service.

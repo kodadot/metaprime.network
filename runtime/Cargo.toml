@@ -4,14 +4,11 @@ branch = 'rococo-v1'
 version = '4.0.0'
 
 [package]
-authors = ['Anonymous']
+authors = ['Eliott Teissonniere <git.eliott@teissonniere.org>']
 edition = '2018'
-homepage = 'https://substrate.dev'
-license = 'Unlicense'
-name = 'parachain-runtime'
-repository = 'https://github.com/substrate-developer-hub/substrate-parachain-template'
-
-version = '2.0.0'
+name = 'kodadot-runtime'
+repository = 'https://github.com/kodadot/chain'
+version = '0.1.0'
 
 [dependencies]
 smallvec = "1.6.1"
