@@ -1,4 +1,4 @@
-#![warn(missing_docs)]
+//! A Substrate node for KodaDot.
 
 mod chain_spec;
 #[macro_use]
