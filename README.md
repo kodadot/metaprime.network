@@ -63,7 +63,7 @@ Open a new terminal, same directory:
 Substrate Parachain Template:
 ```bash
 # NOTE: this command assumes the chain spec is in a directory named polkadot that is a sibling of the working directory
-./target/release/parachain-collator -d local-test --collator --alice --ws-port 9945 --parachain-id 200 -- --chain ../polkadot/rococo_local.json
+./target/release/kodadot -d local-test --collator --alice --ws-port 9945 --parachain-id 200 -- --chain ../polkadot/rococo_local.json
 ```
 
 > Note: this chainspec file MUST be shared with all nodes genereated by _one_ validator node and passed around.
@@ -81,19 +81,19 @@ you modified the code you can use the following commands:
 cargo build --release
 
 # Build the Chain spec
-./target/release/parachain-collator build-spec \
+./target/release/kodadot build-spec \
 --disable-default-bootnode > ./resources/template-local-plain.json
 
 # Build the raw file
-./target/release/parachain-collator build-spec \
+./target/release/kodadot build-spec \
 --chain=./resources/template-local-plain.json \
 --raw --disable-default-bootnode > ./resources/template-local.json
 
 
 # Export genesis state to `./resources files
-./target/release/parachain-collator export-genesis-state --parachain-id 200 > ./resources/para-200-genesis
+./target/release/kodadot export-genesis-state --parachain-id 200 > ./resources/para-200-genesis
 # export runtime wasm
-./target/release/parachain-collator export-genesis-wasm > ./resources/para-200.wasm
+./target/release/kodadot export-genesis-wasm > ./resources/para-200.wasm
 ```
 
 #### Register on the Relay with `sudo`
