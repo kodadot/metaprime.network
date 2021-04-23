@@ -1,19 +1,26 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use codec::FullCodec;
+use codec::{Decode, Encode};
 use frame_support::{pallet_prelude::*, transactional, PalletId};
 use frame_system::pallet_prelude::*;
 use orml_traits::NFT;
+#[cfg(feature = "std")]
+use serde::{Deserialize, Serialize};
 use sp_runtime::{
-    traits::{AccountIdConversion, AtLeast32BitUnsigned, StaticLookup},
+    traits::{AccountIdConversion, StaticLookup},
     DispatchResult,
 };
-use sp_std::{fmt::Debug, vec::Vec};
+use sp_std::vec::Vec;
 
 pub use pallet::*;
 
-pub type ClassData = ();
-pub type TokenData = ();
+#[derive(Encode, Decode, Clone, RuntimeDebug, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct ClassData {}
+
+#[derive(Encode, Decode, Clone, RuntimeDebug, PartialEq, Eq, Default)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct TokenData {}
 
 pub type ClassIdOf<T> = <T as orml_nft::Config>::ClassId;
 pub type TokenIdOf<T> = <T as orml_nft::Config>::TokenId;
@@ -31,33 +38,16 @@ pub mod pallet {
         /// The NFT's module id
         #[pallet::constant]
         type PalletId: Get<PalletId>;
-
-        /// How we represent NFT balances
-        type NFTBalance: AtLeast32BitUnsigned
-            + FullCodec
-            + Copy
-            + MaybeSerializeDeserialize
-            + Debug
-            + Default;
     }
 
     #[pallet::error]
     pub enum Error<T> {
         /// ClassId not found
         ClassIdNotFound,
-        /// TokenId not found
-        TokenIdNotFound,
         /// The operator is not the owner of the token and has no permission
         NoPermission,
         /// Quantity is invalid. need >= 1
         InvalidQuantity,
-        /// Property of class don't support transfer
-        NonTransferable,
-        /// Property of class don't support burn
-        NonBurnable,
-        /// Can not destroy class
-        /// Total issuance is not 0
-        CannotDestroyClass,
     }
 
     #[pallet::event]
@@ -67,8 +57,6 @@ pub mod pallet {
         CreatedClass(T::AccountId, ClassIdOf<T>),
         /// Minted NFT token. \[from, to, class_id, quantity\]
         MintedToken(T::AccountId, T::AccountId, ClassIdOf<T>, u32),
-        /// Transferred NFT token. \[from, to, class_id, token_id\]
-        TransferredToken(T::AccountId, T::AccountId, ClassIdOf<T>, TokenIdOf<T>),
     }
 
     #[pallet::pallet]
@@ -88,7 +76,7 @@ pub mod pallet {
             let next_id = orml_nft::Pallet::<T>::next_class_id();
             let owner: T::AccountId = T::PalletId::get().into_sub_account(next_id);
 
-            orml_nft::Pallet::<T>::create_class(&owner, metadata, ())?;
+            orml_nft::Pallet::<T>::create_class(&owner, metadata, ClassData::default())?;
 
             Self::deposit_event(Event::CreatedClass(owner, next_id));
             Ok(().into())
@@ -117,7 +105,7 @@ pub mod pallet {
             ensure!(who == class_info.owner, Error::<T>::NoPermission);
 
             for _ in 0..quantity {
-                orml_nft::Pallet::<T>::mint(&to, class_id, metadata.clone(), ())?;
+                orml_nft::Pallet::<T>::mint(&to, class_id, metadata.clone(), TokenData::default())?;
             }
 
             Self::deposit_event(Event::MintedToken(who, to, class_id, quantity));

@@ -28,6 +28,7 @@ mod pallets_cumulus;
 mod pallets_economy;
 mod pallets_finance;
 mod pallets_governance;
+mod pallets_nfts;
 mod pallets_utilities;
 mod primitives;
 mod version;
@@ -71,6 +72,9 @@ construct_runtime!(
         PolkadotXcm: pallet_xcm::{Pallet, Call, Event<T>, Origin},
         CumulusXcm: cumulus_pallet_xcm::{Pallet, Origin},
         Ping: cumulus_ping::{Pallet, Call, Storage, Event<T>},
+
+        OrmlNFT: orml_nft::{Pallet, Storage, Config<T>},
+        NFT: kodadot_nft::{Pallet, Call, Event<T>},
     }
 );
 

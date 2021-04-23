@@ -134,5 +134,6 @@ fn testnet_genesis(
         pallet_sudo: kodadot_runtime::SudoConfig { key: root_key },
         pallet_treasury: Default::default(),
         parachain_info: kodadot_runtime::ParachainInfoConfig { parachain_id: id },
+        orml_nft: Default::default(),
     }
 }
