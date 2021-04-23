@@ -73,6 +73,8 @@ construct_runtime!(
         CumulusXcm: cumulus_pallet_xcm::{Pallet, Origin},
         Ping: cumulus_ping::{Pallet, Call, Storage, Event<T>},
 
+        OrmlVesting: orml_vesting::{Pallet, Storage, Call, Event<T>, Config<T>},
+
         OrmlNFT: orml_nft::{Pallet, Storage, Config<T>},
         NFT: kodadot_nft::{Pallet, Call, Event<T>},
     }

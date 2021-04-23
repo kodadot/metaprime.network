@@ -1,10 +1,12 @@
 use crate::{
     constants::{deposit, CENTS, UNITS},
+    pallets_finance::TreasuryPalletId,
     primitives::{AccountId, Balance},
-    Balances, Call, Event, Runtime, Treasury,
+    Balances, Call, Event, Origin, Runtime, Treasury,
 };
-use frame_support::parameter_types;
-use frame_system::EnsureRoot;
+use frame_support::{parameter_types, traits::EnsureOrigin};
+use frame_system::{EnsureRoot, RawOrigin};
+use sp_runtime::traits::AccountIdConversion;
 
 parameter_types! {
     // One storage item; key size is 32; value is size 4+4+16+32 bytes = 56 bytes.
@@ -69,4 +71,40 @@ impl pallet_utility::Config for Runtime {
     type Event = Event;
     type Call = Call;
     type WeightInfo = pallet_utility::weights::SubstrateWeight<Runtime>;
+}
+
+pub struct EnsureRootOrTreasury;
+impl EnsureOrigin<Origin> for EnsureRootOrTreasury {
+    type Success = AccountId;
+
+    fn try_origin(o: Origin) -> Result<Self::Success, Origin> {
+        Into::<Result<RawOrigin<AccountId>, Origin>>::into(o).and_then(|o| match o {
+            RawOrigin::Root => Ok(TreasuryPalletId::get().into_account()),
+            RawOrigin::Signed(caller) => {
+                if caller == TreasuryPalletId::get().into_account() {
+                    Ok(caller)
+                } else {
+                    Err(Origin::from(Some(caller)))
+                }
+            }
+            r => Err(Origin::from(r)),
+        })
+    }
+
+    #[cfg(feature = "runtime-benchmarks")]
+    fn successful_origin() -> Origin {
+        Origin::from(RawOrigin::Signed(Default::default()))
+    }
+}
+
+parameter_types! {
+    pub MinVestedTransfer: Balance = 100 * UNITS;
+}
+
+impl orml_vesting::Config for Runtime {
+    type Event = Event;
+    type Currency = Balances;
+    type MinVestedTransfer = MinVestedTransfer;
+    type VestedTransferOrigin = EnsureRootOrTreasury;
+    type WeightInfo = ();
 }

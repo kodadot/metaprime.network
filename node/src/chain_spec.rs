@@ -135,5 +135,6 @@ fn testnet_genesis(
         pallet_treasury: Default::default(),
         parachain_info: kodadot_runtime::ParachainInfoConfig { parachain_id: id },
         orml_nft: Default::default(),
+        orml_vesting: Default::default(),
     }
 }

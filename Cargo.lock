@@ -3305,6 +3305,7 @@ dependencies = [
  "hex-literal 0.3.1",
  "kodadot-nft",
  "orml-nft",
+ "orml-vesting",
  "pallet-balances",
  "pallet-bounties",
  "pallet-identity",
@@ -4622,6 +4623,20 @@ version = "0.4.1-dev"
 source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=master#b63b6667a0809165bda20ba57cbe85e1c0687b8c"
 dependencies = [
  "frame-support",
+ "parity-scale-codec",
+ "serde",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-vesting"
+version = "0.4.1-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=master#b63b6667a0809165bda20ba57cbe85e1c0687b8c"
+dependencies = [
+ "frame-support",
+ "frame-system",
  "parity-scale-codec",
  "serde",
  "sp-io",
@@ -10415,7 +10430,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04f8ab788026715fa63b31960869617cba39117e520eb415b0139543e325ab59"
 dependencies = [
  "cfg-if 0.1.10",
- "rand 0.3.23",
+ "rand 0.7.3",
  "static_assertions",
 ]
 
