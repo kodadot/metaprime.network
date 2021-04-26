@@ -78,6 +78,15 @@ default-features = false
 path = '../pallets/nfts'
 default-features = false
 
+[dependencies.orml-auction]
+git = 'https://github.com/open-web3-stack/open-runtime-module-library.git'
+branch = 'master'
+default-features = false
+
+[dependencies.kodadot-auction]
+path = '../pallets/auctions'
+default-features = false
+
 [dependencies.pallet-balances]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
@@ -351,6 +360,8 @@ std = [
 
 	'orml-vesting/std',
 
-	'orml-nft/std',
+	'kodadot-auction/std',
 	'kodadot-nft/std',
+	'orml-auction/std',
+	'orml-nft/std',
 ]
