@@ -1,5 +1,5 @@
 use cumulus_primitives_core::ParaId;
-use parachain_runtime::{AccountId, Signature};
+use kodadot_runtime::{AccountId, Signature};
 use sc_chain_spec::{ChainSpecExtension, ChainSpecGroup};
 use sc_service::ChainType;
 use serde::{Deserialize, Serialize};
@@ -7,7 +7,7 @@ use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
 
 /// Specialized `ChainSpec` for the normal parachain runtime.
-pub type ChainSpec = sc_service::GenericChainSpec<parachain_runtime::GenesisConfig, Extensions>;
+pub type ChainSpec = sc_service::GenericChainSpec<kodadot_runtime::GenesisConfig, Extensions>;
 
 /// Helper function to generate a crypto pair from seed
 pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Public {
@@ -115,22 +115,26 @@ fn testnet_genesis(
     root_key: AccountId,
     endowed_accounts: Vec<AccountId>,
     id: ParaId,
-) -> parachain_runtime::GenesisConfig {
-    parachain_runtime::GenesisConfig {
-        frame_system: parachain_runtime::SystemConfig {
-            code: parachain_runtime::WASM_BINARY
+) -> kodadot_runtime::GenesisConfig {
+    kodadot_runtime::GenesisConfig {
+        frame_system: kodadot_runtime::SystemConfig {
+            code: kodadot_runtime::WASM_BINARY
                 .expect("WASM binary was not build, please build it!")
                 .to_vec(),
             changes_trie_config: Default::default(),
         },
-        pallet_balances: parachain_runtime::BalancesConfig {
+        pallet_balances: kodadot_runtime::BalancesConfig {
             balances: endowed_accounts
                 .iter()
                 .cloned()
                 .map(|k| (k, 1 << 60))
                 .collect(),
         },
-        pallet_sudo: parachain_runtime::SudoConfig { key: root_key },
-        parachain_info: parachain_runtime::ParachainInfoConfig { parachain_id: id },
+        pallet_indices: Default::default(),
+        pallet_sudo: kodadot_runtime::SudoConfig { key: root_key },
+        pallet_treasury: Default::default(),
+        parachain_info: kodadot_runtime::ParachainInfoConfig { parachain_id: id },
+        orml_nft: Default::default(),
+        orml_vesting: Default::default(),
     }
 }

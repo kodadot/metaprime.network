@@ -22,11 +22,14 @@ use sp_runtime::{
 use sp_std::prelude::*;
 use sp_version::RuntimeVersion;
 
-mod constants;
+pub mod constants;
 mod pallets_core;
 mod pallets_cumulus;
 mod pallets_economy;
+mod pallets_finance;
 mod pallets_governance;
+mod pallets_nfts;
+mod pallets_utilities;
 mod primitives;
 mod version;
 
@@ -46,19 +49,41 @@ construct_runtime!(
         UncheckedExtrinsic = UncheckedExtrinsic,
     {
         System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
+        Indices: pallet_indices::{Pallet, Call, Storage, Config<T>, Event<T>},
         RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Call, Storage},
         Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
+
         Balances: pallet_balances::{Pallet, Call, Storage, Config<T>, Event<T>},
-        ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event},
         TransactionPayment: pallet_transaction_payment::{Pallet, Storage},
-        ParachainInfo: parachain_info::{Pallet, Storage, Config},
-        XcmHandler: cumulus_pallet_xcm_handler::{Pallet, Event<T>, Origin},
+
+        Bounties: pallet_bounties::{Pallet, Call, Storage, Event<T>},
+        Treasury: pallet_treasury::{Pallet, Call, Storage, Config, Event<T>},
+
         Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
+
+        Identity: pallet_identity::{Pallet, Call, Storage, Event<T>},
+        Multisig: pallet_multisig::{Pallet, Call, Storage, Event<T>},
+        Recovery: pallet_recovery::{Pallet, Call, Storage, Event<T>},
+        Utility: pallet_utility::{Pallet, Call, Event},
+
+        ParachainSystem: cumulus_pallet_parachain_system::{Pallet, Call, Storage, Inherent, Event<T>},
+        ParachainInfo: parachain_info::{Pallet, Storage, Config},
+        XcmpQueue: cumulus_pallet_xcmp_queue::{Pallet, Call, Storage, Event<T>},
+        PolkadotXcm: pallet_xcm::{Pallet, Call, Event<T>, Origin},
+        CumulusXcm: cumulus_pallet_xcm::{Pallet, Origin},
+        Ping: cumulus_ping::{Pallet, Call, Storage, Event<T>},
+
+        OrmlVesting: orml_vesting::{Pallet, Storage, Call, Event<T>, Config<T>},
+
+        AuctionManager: kodadot_auction::{Pallet, Storage, Call, Event<T>},
+        NFT: kodadot_nft::{Pallet, Call, Event<T>},
+        Auction: orml_auction::{Pallet, Storage, Call, Event<T>},
+        OrmlNFT: orml_nft::{Pallet, Storage, Config<T>},
     }
 );
 
 /// The address format for describing accounts.
-pub type Address = sp_runtime::MultiAddress<AccountId, ()>;
+pub type Address = sp_runtime::MultiAddress<AccountId, AccountIndex>;
 /// Block type as expected by this runtime.
 pub type Block = generic::Block<Header, UncheckedExtrinsic>;
 /// A Block signed with a Justification
@@ -167,20 +192,22 @@ impl_runtime_apis! {
         }
     }
 
-    impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentApi<Block, Balance> for Runtime {
-        fn query_info(
-            uxt: <Block as BlockT>::Extrinsic,
-            len: u32,
-        ) -> pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo<Balance> {
-            TransactionPayment::query_info(uxt, len)
-        }
-        fn query_fee_details(
-            uxt: <Block as BlockT>::Extrinsic,
-            len: u32,
-        ) -> pallet_transaction_payment::FeeDetails<Balance> {
-            TransactionPayment::query_fee_details(uxt, len)
-        }
-    }
+    // posing issues on latest cumulus and substrate branches
+    // impl pallet_transaction_payment_rpc_runtime_api::TransactionPaymentApi<Block, Balance> for Runtime {
+    //     fn query_info(
+    //         uxt: <Block as BlockT>::Extrinsic,
+    //         len: u32,
+    //     ) -> pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo<Balance> {
+    //         TransactionPayment::query_info(uxt, len)
+    //     }
+    //
+    //     fn query_fee_details(
+    //         uxt: <Block as BlockT>::Extrinsic,
+    //         len: u32,
+    //     ) -> pallet_transaction_payment::FeeDetails<Balance> {
+    //         TransactionPayment::query_fee_details(uxt, len)
+    //     }
+    // }
 
     #[cfg(feature = "runtime-benchmarks")]
     impl frame_benchmarking::Benchmark<Block> for Runtime {
@@ -210,7 +237,13 @@ impl_runtime_apis! {
 
             add_benchmark!(params, batches, frame_system, SystemBench::<Runtime>);
             add_benchmark!(params, batches, pallet_balances, Balances);
+            add_benchmark!(params, batches, pallet_bounties, Bounties);
+            add_benchmark!(params, batches, pallet_identity, Identity);
+            add_benchmark!(params, batches, pallet_indices, Index);
+            add_benchmark!(params, batches, pallet_multisig, Multisig);
             add_benchmark!(params, batches, pallet_timestamp, Timestamp);
+            add_benchmark!(params, batches, pallet_treasury, Treasury);
+            add_benchmark!(params, batches, pallet_utility, Utility);
 
             if batches.is_empty() { return Err("Benchmark not found for this pallet.".into()) }
             Ok(batches)

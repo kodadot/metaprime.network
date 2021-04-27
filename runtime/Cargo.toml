@@ -4,14 +4,11 @@ branch = 'rococo-v1'
 version = '4.0.0'
 
 [package]
-authors = ['Anonymous']
+authors = ['Eliott Teissonniere <git.eliott@teissonniere.org>']
 edition = '2018'
-homepage = 'https://substrate.dev'
-license = 'Unlicense'
-name = 'parachain-runtime'
-repository = 'https://github.com/substrate-developer-hub/substrate-parachain-template'
-
-version = '2.0.0'
+name = 'kodadot-runtime'
+repository = 'https://github.com/kodadot/chain'
+version = '0.1.0'
 
 [dependencies]
 smallvec = "1.6.1"
@@ -67,13 +64,66 @@ version = '3.0.0'
 optional = true
 version = '0.3.1'
 
+[dependencies.orml-vesting]
+git = 'https://github.com/open-web3-stack/open-runtime-module-library.git'
+branch = 'master'
+default-features = false
+
+[dependencies.orml-nft]
+git = 'https://github.com/open-web3-stack/open-runtime-module-library.git'
+branch = 'master'
+default-features = false
+
+[dependencies.kodadot-nft]
+path = '../pallets/nfts'
+default-features = false
+
+[dependencies.orml-auction]
+git = 'https://github.com/open-web3-stack/open-runtime-module-library.git'
+branch = 'master'
+default-features = false
+
+[dependencies.kodadot-auction]
+path = '../pallets/auctions'
+default-features = false
+
 [dependencies.pallet-balances]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
 version = '3.0.0'
 
+[dependencies.pallet-bounties]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-identity]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-indices]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-multisig]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
 [dependencies.pallet-randomness-collective-flip]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-recovery]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
@@ -98,6 +148,18 @@ branch = 'rococo-v1'
 version = '3.0.0'
 
 [dependencies.pallet-transaction-payment-rpc-runtime-api]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-treasury]
+default-features = false
+git = 'https://github.com/paritytech/substrate.git'
+branch = 'rococo-v1'
+version = '3.0.0'
+
+[dependencies.pallet-utility]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = 'rococo-v1'
@@ -186,17 +248,37 @@ git = 'https://github.com/paritytech/cumulus.git'
 branch = 'rococo-v1'
 default-features = false
 
+[dependencies.cumulus-ping]
+git = 'https://github.com/paritytech/cumulus.git'
+branch = 'rococo-v1'
+default-features = false
+
 [dependencies.cumulus-primitives-core]
 git = 'https://github.com/paritytech/cumulus.git'
 branch = 'rococo-v1'
 default-features = false
 
-[dependencies.cumulus-pallet-xcm-handler]
+[dependencies.cumulus-primitives-utility]
+git = 'https://github.com/paritytech/cumulus.git'
+branch = 'rococo-v1'
+default-features = false
+
+[dependencies.cumulus-pallet-xcm]
+git = 'https://github.com/paritytech/cumulus.git'
+branch = 'rococo-v1'
+default-features = false
+
+[dependencies.cumulus-pallet-xcmp-queue]
 git = 'https://github.com/paritytech/cumulus.git'
 branch = 'rococo-v1'
 default-features = false
 
 # Polkadot dependencies
+[dependencies.pallet-xcm]
+git = 'https://github.com/paritytech/polkadot'
+branch = 'rococo-v1'
+default-features = false
+
 [dependencies.polkadot-parachain]
 git = 'https://github.com/paritytech/polkadot'
 branch = 'rococo-v1'
@@ -227,7 +309,13 @@ runtime-benchmarks = [
 	'hex-literal',
 	'frame-system/runtime-benchmarks',
 	'pallet-balances/runtime-benchmarks',
+	'pallet-bounties/runtime-benchmarks',
+	'pallet-identity/runtime-benchmarks',
+	'pallet-indices/runtime-benchmarks',
+	'pallet-multisig/runtime-benchmarks',
 	'pallet-timestamp/runtime-benchmarks',
+	'pallet-treasury/runtime-benchmarks',
+	'pallet-utility/runtime-benchmarks',
 ]
 std = [
 	'codec/std',
@@ -248,15 +336,32 @@ std = [
 	'frame-system/std',
 	'frame-system-rpc-runtime-api/std',
 	'pallet-balances/std',
+	'pallet-bounties/std',
+	'pallet-identity/std',
+	'pallet-indices/std',
+	'pallet-multisig/std',
 	'pallet-randomness-collective-flip/std',
-	'pallet-timestamp/std',
+	'pallet-recovery/std',
 	'pallet-sudo/std',
+	'pallet-timestamp/std',
 	'pallet-transaction-payment/std',
+	'pallet-treasury/std',
+	'pallet-utility/std',
 	'parachain-info/std',
 	'cumulus-pallet-parachain-system/std',
+	'cumulus-pallet-xcm/std',
+	'cumulus-pallet-xcmp-queue/std',
+	'cumulus-ping/std',
 	'cumulus-primitives-core/std',
+	'cumulus-primitives-utility/std',
 	'xcm/std',
 	'xcm-builder/std',
 	'xcm-executor/std',
-	'cumulus-pallet-xcm-handler/std',
+
+	'orml-vesting/std',
+
+	'kodadot-auction/std',
+	'kodadot-nft/std',
+	'orml-auction/std',
+	'orml-nft/std',
 ]
