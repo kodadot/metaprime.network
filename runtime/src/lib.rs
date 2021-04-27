@@ -75,9 +75,9 @@ construct_runtime!(
 
         OrmlVesting: orml_vesting::{Pallet, Storage, Call, Event<T>, Config<T>},
 
-        AuctionManager: kodadot_auction::{Pallet, Storage, Call, Event<T>}
+        AuctionManager: kodadot_auction::{Pallet, Storage, Call, Event<T>},
         NFT: kodadot_nft::{Pallet, Call, Event<T>},
-        Auction: orml_auction::{Pallet, Storage, Call, Event<T>}
+        Auction: orml_auction::{Pallet, Storage, Call, Event<T>},
         OrmlNFT: orml_nft::{Pallet, Storage, Config<T>},
     }
 );
