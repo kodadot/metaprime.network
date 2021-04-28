@@ -1,7 +1,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 use codec::{Decode, Encode};
-use frame_support::{pallet_prelude::*, transactional, PalletId};
+use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::NFT;
 #[cfg(feature = "std")]
@@ -34,10 +34,6 @@ pub mod pallet {
         frame_system::Config + orml_nft::Config<ClassData = ClassData, TokenData = TokenData>
     {
         type Event: From<Event<Self>> + IsType<<Self as frame_system::Config>::Event>;
-
-        /// The NFT's module id
-        #[pallet::constant]
-        type PalletId: Get<PalletId>;
     }
 
     #[pallet::error]
@@ -72,9 +68,8 @@ pub mod pallet {
         /// - `metadata`: external metadata
         #[pallet::weight(1_000)]
         pub fn create_class(origin: OriginFor<T>, metadata: Vec<u8>) -> DispatchResultWithPostInfo {
-            let _who = ensure_signed(origin)?;
+            let owner = ensure_signed(origin)?;
             let next_id = orml_nft::Pallet::<T>::next_class_id();
-            let owner: T::AccountId = T::PalletId::get().into_sub_account(next_id);
 
             orml_nft::Pallet::<T>::create_class(&owner, metadata, ClassData::default())?;
 

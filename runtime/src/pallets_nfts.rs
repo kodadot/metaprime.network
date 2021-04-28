@@ -19,13 +19,8 @@ impl orml_auction::Config for Runtime {
     type WeightInfo = ();
 }
 
-parameter_types! {
-    pub const NftPalletId: PalletId = PalletId(*b"kod/nfts");
-}
-
 impl kodadot_nft::Config for Runtime {
     type Event = Event;
-    type PalletId = NftPalletId;
 }
 
 impl orml_nft::Config for Runtime {
