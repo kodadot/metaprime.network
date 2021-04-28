@@ -6,10 +6,7 @@ use frame_system::pallet_prelude::*;
 use orml_traits::NFT;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
-use sp_runtime::{
-    traits::{AccountIdConversion, StaticLookup},
-    DispatchResult,
-};
+use sp_runtime::{traits::StaticLookup, DispatchResult};
 use sp_std::vec::Vec;
 
 pub use pallet::*;
