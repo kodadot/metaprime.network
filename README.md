@@ -38,11 +38,11 @@ git clone git@github.com:paritytech/polkadot.git
 cd polkadot
 git checkout rococo-v1
 
-# build WITH the real-overseer (required) 
-cargo build --release --features real-overseer
+# build the polkadot node
+cargo build --release
 
 # generaete the chainspec - note this file MUST be shared with all nodes!
-# Other nodes cannot generate it due to possible non-determanism 
+# Other nodes cannot generate it due to possible non-determinism 
 ./target/release/polkadot build-spec --chain rococo-local --raw --disable-default-bootnode > rococo_local.json
 
 # Start Relay `Alice` node

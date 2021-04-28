@@ -1,0 +1,32 @@
+{
+    "AuctionId": "u32",
+    "AuctionIdOf": "AuctionId",
+    "ClassData": {},
+    "ClassDataOf": "ClassData",
+    "ClassInfo": {
+        "metadata": "Vec<u8>",
+        "total_issuance": "TokenId",
+        "owner": "AccountId",
+        "data": "ClassData"
+    },
+    "ClassInfoOf": "ClassInfo",
+    "ClassId": "u32",
+    "ClassIdOf": "ClassId",
+    "TokenData": {},
+    "TokenDataOf": "TokenData",
+    "TokenInfo": {
+        "metadata": "Vec<u8>",
+        "owner": "AccountId",
+        "data": "Data"
+    },
+    "TokenInfoOf": "TokenInfo",
+    "TokenId": "u64",
+    "TokenIdOf": "TokenId",
+    "VestingSchedule": {
+        "start": "BlockNumber",
+        "period": "BlockNumber",
+        "period_count": "u32",
+        "per_period": "Balance"
+    },
+    "VestingScheduleOf": "VestingSchedule"
+}
